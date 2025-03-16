@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Virtual Jar of Love</title>
+  <style>
+    body {
+      background: #f8f8f8;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      margin: 0 auto;
+      max-width: 600px;
+      padding: 20px;
+    }
+    .jar {
+      width: 100%;
+      max-width: 400px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+    .btn {
+      background: #ff6f61;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 1em;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.5);
+    }
+    .modal-content {
+      background-color: #fff;
+      margin: 15% auto;
+      padding: 15px;
+      border: 1px solid #888;
+      width: 90%;
+      max-width: 350px;
+      border-radius: 10px;
+      text-align: center;
+    }
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .close:hover,
+    .close:focus {
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>101 reasons I love you</h1>
+    <p>Click the button below to reveal a reason why I love you!</p>
+    <img src="https://i.imgur.com/ol0edva.png" alt="Jar of Love" class="jar">
+    <br>
+    <button class="btn" id="pickReasonBtn">Pick a Reason</button>
+  </div>
+
+  <!-- The Modal -->
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p id="reasonText" style="font-size: 1.2em;"></p>
+    </div>
+  </div>
+
+  <script>
+    // Array of love notes
+    const reasons = [
+      "I love your beautiful smile.",
+      "I love your laugh.",
+      "I love your kindness.",
+      "I love your creativity.",
+      "I love the little moments we share.",
+      "I love how you helped me be the best version of myself.",
+      "I love your intelligence.",
+      "I love your touch and the comfort it brings me.",
+      "I love the way you snore.",
+      "I love the way you look.",
+      "I love it when you get distracted and you zone out.",
+      "I love when we cuddle.",
+      "I love when we sleep together.",
+      "I love watching shows and movies with you.",
+      "I love reading with you.",
+      "I love calling you.",
+      "I love listening to your gushes.",
+      "I love gushing to you.",
+      "I love looking at you.",
+      "I love baking with you.",
+      "I love being in your presence.",
+      "I love talking to you.",
+      "I love kissing you.",
+      "I love it when you make me found.",
+      "I love it when you laugh at my jokes.",
+      "I love reading to you.",
+      "I love lulling you to sleep.",
+      "I love hugging you.",
+      "I love your love bites.",
+      "I love your cute aggression.",
+      "I love watching you put on make up.",
+      "I love buying you stuff.",
+      "I love making you happy.",
+      "I love it when you get excited over something.",
+      "I love how funny you are.",
+      "I love how you watch anime with me even though you don't like it.",
+      "I love how you are still with me eventhough I am about to become a dentist.",
+      "I love your reactions to my haircuts.",
+      "I love taking care of you.",
+      "I love you.",
+      "I love how thoughtful you are.",
+      "I love how you make fun of me (with limits, dont hurt me pls).",
+      "I love how you think.",
+      "I love your poses for pictures.",
+      "I love how determined you are.",
+      "I love it when we are thinking the same thing at the same time as if we are telepaths.",
+      "I love it when you sit on me.",
+      "I love it when you wear my clothes.",
+      "I love it when you compliment me.",
+      "I love your sense of humor.",
+      "I love the way you talk.",
+      "I love the way you walk.",
+      "I love your hands.",
+      "I love your arms.",
+      "I love your thighs.",
+      "I love your eyes.",
+      "I love your legs.",
+      "I love your taste in music.",
+      "I love your neck.",
+      "I love your lips.",
+      "I love your face and your cute ass expressions.",
+      "I love your crazy food experiments.",
+      "I love how you are scared of dogs and cats but find them adorable at the same time.",
+      "I love complimenting you.",
+      "I love taking pictures with you.",
+      "I love how you snuggle into my chest when we are sleeping together.",
+      "I love how mature you are",
+      "I love how you put your all to whatever you decide to learn.",
+      "I love how you know what books I will like.",
+      "I love your sillines.",
+      "I love the face you make when you are stressed.",
+      "I love the face you make when you are surprised.",
+      "I love how your hand moves when you talk.",
+      "I love your hair.",
+      "I love how you look when you are concentrating on something.",
+      "I love how you worry for me.",
+      "I love that you're shorter than me.",
+      "I will always love you.",
+      "I love your cooking.",
+      "I love the adorably blank look on your face when you are thinking about a lot.",
+      "I love how you look when you are concentrating on something.",
+      "I love how you are scared of dogs and cats but find them adorable at the same time.",
+      "II love how you snuggle into my chest when we are sleeping together.",
+      "I love it when we are thinking the same thing at the same time as if we are telepaths.",
+      "I love how you always smell good.",
+      "I love the way you look at me.",
+      "I love the chats I have with you right before you fall asleep.",
+      "I love your sleepy face when you just wake up.",
+      "I love holding your hand.",
+      "I love how curious you are.",
+      "I love how you make me laugh even when I’m sad.",
+      "I love how you sometimes leave video messages/voice messages for me.",
+      "I love how you listen to me even when I ramble.",
+      "I love your hugs.",
+      "I love your hugs.",
+      "I love your hugs.",
+      "I love your hugs.",
+      "I love your hugs.",
+      "I love your hugs.",
+      "I love your hugs.",
+      "I love your hugs.",
+      "I love your hugs.",
+    ];
+
+    // Get elements
+    const modal = document.getElementById("myModal");
+    const reasonText = document.getElementById("reasonText");
+    const pickReasonBtn = document.getElementById("pickReasonBtn");
+    const closeBtn = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, display a random reason
+    pickReasonBtn.onclick = function() {
+      const randomIndex = Math.floor(Math.random() * reasons.length);
+      reasonText.textContent = reasons[randomIndex];
+      modal.style.display = "block";
+    }
+
+    // When the user clicks the close button, hide the modal
+    closeBtn.onclick = function() {
+      modal.style.display = "none";
+    }
+
+    // Close the modal if the user clicks outside of the modal content
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+  </script>
+</body>
+</html>
